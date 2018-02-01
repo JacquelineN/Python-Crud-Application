@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Quotes</title>
+    <style>
+        .wrapper {
+            width: 700px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+    <p style="float: right"><a href="/dashboard">Dashboard</a> <span> | </span> <a href="/logout">Logout</a></p>
+    <h3>Posts by: {{user.name}}</h3>
+    <h3>Count: {{count}}</h3>
+    {% for p in user_posts %}
+    <p style="width: 450px"><span style="color:red">{{p.author}}</span>: {{p.quote}}</p>
+    {% endfor %}
+    </div>
+</body>
+</html>

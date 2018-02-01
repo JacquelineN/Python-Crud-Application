@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Quotable Quotes</title>
+    <style>
+        .error{ 
+            color:red; 
+        }
+        .wrapper {
+            width: 800px;
+        }
+        .inline {
+            display: inline-block;
+            width: 350px;
+            min-height: 300px;
+            vertical-align: top;
+        }
+        .border {
+            border: solid black 2px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+        .contrib {
+            display: block;
+            margin-left: 30px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="wrapper">
+<p><span style="font-size: 16pt">Welcome, {{user.name}}!</span> <a href="/logout" style="float:right">Logout</a></p>
+    <div class="inline border">
+        <h3>Quotable Quotes</h3>
+        {% for q in quotes %}
+           <div class="border"> <p>{{q.author}}: {{q.quote}}</p>
+            <form action="/add_to_favs/{{q.id}}" method="POST">
+                {% csrf_token %}
+            <button style="float: right">Add to My List</button>
+            </form>
+            <h6>Posted by <a href="/user/{{q.uploaded_by.id}}">{{q.uploaded_by.name}}</a></h6>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="inline">
+        <div class="border">
+        <h3>Your Favorites</h3>
+        {% for f in favorites %}
+            <div class="border">
+            <p>{{f.author}}: {{f.quote}}</p>
+            <form action="/remove_from_favs/{{f.id}}" method="POST">
+                {% csrf_token %}
+            <button style="float: right">Remove From to My List</button>
+            </form>
+            <h6>Posted by <a href="/user/{{f.uploaded_by.id}}">{{f.uploaded_by.name}}</a></h6>
+            </div>
+        {% endfor %}
+        </div>
+       <div class="contrib">
+        <form action="/add" method="POST">
+            {% csrf_token %}
+            <h3>Contribute a Quote:</h3>
+            <p>Quoted By:<input type="text" name="author"></p>
+            <p>Message:<input style="height: 100px; width: 300px" type="text" name="quote"></p>            
+            <button style="float: right">Submit</button><br>
+        </form>
+        </div>
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+    </div>    
+<!-- end of wrapper -->
+</div>
+</body>
+</html>
